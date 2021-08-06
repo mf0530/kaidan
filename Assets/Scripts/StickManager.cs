@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class StickManager : MonoBehaviour
 {
+    [SerializeField] Sprite stick = default;
     [SerializeField] Sprite stickBig = default;
 
-    //deathTime * speed = 6000f
     private float speed;
+    private float time170 = 0.70588235f;
     private float totalTime = 0f;
-    private float deathTime = 120f / 170f * 2500f;
+    private float deathTime;
 
     private float startTime;
     private float endTime;
@@ -26,43 +27,48 @@ public class StickManager : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         sprRend = GetComponent<SpriteRenderer>();
 
+        deathTime = time170 * 2500f;
         speed = 6000f / deathTime;
-        startTime = deathTime * 0.65f;
-        endTime = deathTime * 0.9f;
 
-        successTime = deathTime * 0.7f;
-        perfectSTime = deathTime * 0.76f;
-        perfectETime = deathTime * 0.84f;
+        startTime = deathTime * 0.65f;
+        endTime = deathTime * 0.88f;
+        successTime = deathTime * 0.72f;
+        perfectSTime = deathTime * 0.78f;
+        perfectETime = deathTime * 0.82f;
+
+        //Debug.Log(successTime);
+        //Debug.Log(endTime);
     }
 
     private void Update()
     {
         totalTime += Time.deltaTime * 1000;
 
-        if (totalTime >= endTime) {
+        if (totalTime > endTime) {
+            Debug.Log("MISS");
             Destroy(gameObject);
         } else if (totalTime >= successTime) {
             sprRend.sprite = stickBig;
         }
 
-        if (totalTime >= endTime) {
-            Debug.Log("MISS");
-        } else if (totalTime >= successTime) {
-            sprRend.sprite = stickBig;
-        }
-        if (totalTime >= perfectSTime && totalTime <= perfectETime) {
-            Debug.Log("NICE!!");
-        } else if (totalTime >= successTime) {
-            Debug.Log("OK");
-        } else if (totalTime >= startTime) {
-            Debug.Log("MISS");
-        } else {
-            return;
+        if (Input.GetKeyDown("space")){
+            if (totalTime >= perfectSTime && totalTime <= perfectETime) {
+                Debug.Log("NICE!!");
+            } else if (totalTime >= successTime) {
+                Debug.Log("OK!");
+            } else if (totalTime >= startTime) {
+                Debug.Log("MISS");
+            } else {
+                return;
+            }
+
+            //Debug.Log(totalTime);
+
+            Destroy(gameObject);
         }
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         vector.x = -speed;
         rb.velocity = vector;

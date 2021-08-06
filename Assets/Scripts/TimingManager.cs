@@ -5,18 +5,19 @@ using UnityEngine;
 public class TimingManager : MonoBehaviour
 {
     [SerializeField] GameObject stick = default;    // 生成・移動させるオブジェクト
+    [SerializeField] GameObject player = default;
 
     private float totalTime = 0f;
     private float timing = 0f;
+    private float time170 = 0.70588235f;
     private bool isStick = false;
 
     private void Update()
     {
-        totalTime += Time.deltaTime * 1000f;            // トータル経過時間(ms)
-        timing = totalTime % (120f / 170f * 1000f);     // 1回毎の経過時間(ms)
+        totalTime += Time.deltaTime * 1000f;        // トータル経過時間(ms)
+        timing = totalTime % (time170 * 1000f);     // 1回毎の経過時間(ms)
 
-
-        if (timing >= 120f / 170f * 1000f - 15f && timing <= 120f / 170f * 1000f - 5f) {       // タイミングを測る　固定値でOKっぽい
+        if (timing >= time170 * 1000f - 565f && timing < time170 * 1000f - 535f) {  // 140f～170f の誤差？
             if (!isStick) {
                 Instantiate(stick, transform);
                 isStick = true;
@@ -25,4 +26,6 @@ public class TimingManager : MonoBehaviour
             isStick = false;
         }
     }
+
+    
 }

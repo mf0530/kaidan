@@ -31,7 +31,7 @@ public class PlayerManager : MonoBehaviour
         xSpeed = Input.GetAxisRaw("Horizontal");
         xScale = Mathf.Sign(transform.localScale.x);
 
-        Debug.DrawLine(transform.position - (transform.right * 0.18f * xScale) - transform.up * 1.85f, transform.position - (transform.right * 0.18f * xScale) - transform.up * 1.95f, Color.red);
+        //Debug.DrawLine(transform.position - (transform.right * 0.18f * xScale) - transform.up * 1.85f, transform.position - (transform.right * 0.18f * xScale) - transform.up * 1.95f, Color.red);
 
         // ジャンプ判定
         if (Input.GetKeyDown("space")) {
@@ -48,11 +48,12 @@ public class PlayerManager : MonoBehaviour
             animator.SetBool("Jump", true);
         }
 
-
+        // デバッグ用　オートジャンプ
         if (Input.GetKeyDown(KeyCode.P)) {
             StartCoroutine("AutoJump");
         }
 
+        // デバッグ用　のけぞり
         if (Input.GetKeyDown(KeyCode.U)) {
             animator.SetTrigger("Miss");
         }
@@ -75,8 +76,6 @@ public class PlayerManager : MonoBehaviour
         vector.x = xSpeed * 5f;
         vector.y = rb.velocity.y;
 
-
-        /**/
         if (pressP && HitGround()) {
             rb.AddForce(Vector2.up * jumpPower, ForceMode2D.Force);
         } else if (pressP && !HitGround()) {
@@ -92,25 +91,18 @@ public class PlayerManager : MonoBehaviour
             vector.x = xSpeed * 9.4f;
         }
 
-        // 7.35f * 1000f
-        /**/
-
-
         // 移動処理
         rb.velocity = vector;
     }
 
     private bool HitGround()
     {
-        //Debug.DrawLine(transform.position - (transform.right * 0.87f * xScale) - transform.up * 1.85f, transform.position - (transform.right * 0.20f * xScale) - transform.up * 1.95f, Color.red);
-        //Debug.DrawLine(transform.position + (transform.right * 0.47f * xScale) - transform.up * 1.85f, transform.position - (transform.right * 0.20f * xScale) - transform.up * 1.95f, Color.red);
-
-        return Physics2D.Linecast(transform.position - transform.up * 1.85f, transform.position - transform.up * 1.95f, groundLayer);
+        return Physics2D.Linecast(transform.position - (transform.right * 0.18f * xScale) - transform.up * 1.85f, transform.position - (transform.right * 0.18f * xScale) - transform.up * 1.95f, groundLayer);
     }
 
     IEnumerator AutoJump()
     {
-        time = 120f / 170f;
+        time = 0.70588235294f;
         for (int i = 0; i < 4; i++) {
             pressP = true;
             if (i == 3) {
@@ -118,12 +110,12 @@ public class PlayerManager : MonoBehaviour
                 yield return new WaitForSeconds(time);
 
                 transform.localScale = new Vector2(transform.localScale.x * -1f, 1.25f);
-                time = 120f / 170f - 0.35f;
+                time = 0.70588235294f - 0.35f;
             }
             yield return new WaitForSeconds(time);
         }
 
-        time = 120f / 170f;
+        time = 0.70588235294f;
         for (int i = 0; i < 4; i++) {
             pressP = true;
             if (i == 3) {
@@ -131,13 +123,12 @@ public class PlayerManager : MonoBehaviour
                 yield return new WaitForSeconds(time);
 
                 transform.localScale = new Vector2(transform.localScale.x * -1f, 1.25f);
-
-                time = 120f / 170f - 0.35f;
+                time = 0.70588235294f - 0.35f;
             }
             yield return new WaitForSeconds(time);
         }
 
-        time = 120f / 170f;
+        time = 0.70588235294f;
         for (int i = 0; i < 4; i++) {
             pressP = true;
             if (i == 3) {
@@ -145,13 +136,12 @@ public class PlayerManager : MonoBehaviour
                 yield return new WaitForSeconds(time);
 
                 transform.localScale = new Vector2(transform.localScale.x * -1f, 1.25f);
-
-                time = 120f / 170f - 0.35f;
+                time = 0.70588235294f - 0.35f;
             }
             yield return new WaitForSeconds(time);
         }
 
-        time = 120f / 170f;
+        time = 0.70588235294f;
         for (int i = 0; i < 4; i++) {
             pressP = true;
             if (i == 3) {
@@ -159,13 +149,12 @@ public class PlayerManager : MonoBehaviour
                 yield return new WaitForSeconds(time);
 
                 transform.localScale = new Vector2(transform.localScale.x * -1f, 1.25f);
-
-                time = 120f / 170f - 0.35f;
+                time = 0.70588235294f - 0.35f;
             }
             yield return new WaitForSeconds(time);
         }
 
-        time = 120f / 170f;
+        time = 0.70588235294f;
         for (int i = 0; i < 4; i++) {
             pressP = true;
             if (i == 3) {
@@ -173,8 +162,7 @@ public class PlayerManager : MonoBehaviour
                 yield return new WaitForSeconds(time);
 
                 transform.localScale = new Vector2(transform.localScale.x * -1f, 1.25f);
-
-                time = 120f / 170f - 0.35f;
+                time = 0.70588235294f - 0.35f;
             }
             yield return new WaitForSeconds(time);
         }
